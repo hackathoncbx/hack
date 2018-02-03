@@ -14,7 +14,8 @@ module.exports = (route, app, sequelize) => {
         global.sockets[responder.id] && global.sockets[responder.id].send(data);
       });
 
-      res.send();
+      const token = req.body.token;
+      res.send(`Client token is: ${ token }`);
     });
   });
 
