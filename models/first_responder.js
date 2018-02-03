@@ -5,11 +5,11 @@ module.exports = {
         type: sequelize.constructor.STRING,
         field: 'phoneNumber'
       },
-      maxLifePoint: {
+      x: {
         type: sequelize.constructor.DECIMAL,
         field: 'x'
       },
-      capacity: {
+      y: {
         type: sequelize.constructor.DECIMAL,
         field: 'y'
       }
