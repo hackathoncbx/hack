@@ -11,11 +11,14 @@
     "debug": "~2.6.9",
     "ejs": "~2.5.7",
     "express": "~4.15.5",
+    "express-session": "^1.15.6",
+    "express-ws": "^3.0.0",
     "lodash": "^4.17.4",
     "morgan": "~1.9.0",
     "mysql2": "^1.5.1",
     "require-all": "^2.2.0",
     "sequelize": "^4.32.5",
-    "serve-favicon": "~2.4.5"
+    "serve-favicon": "~2.4.5",
+    "websocket": "^1.0.25"
   }
 }
