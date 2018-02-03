@@ -29,7 +29,7 @@ sequelize
     });
 
     require('./routes/users')('/users', app, sequelize);
-    require('./routes/warnings')('/warnings', app, sequelize);
+    require('./routes/alerts')('/alerts', app, sequelize);
   });
 
 app.ws('/', function(ws, req) {
