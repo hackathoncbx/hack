@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
@@ -7,7 +6,7 @@ const session = require('express-session');
 const app = express();
 require('express-ws')(app);
 
-global.sessions = [];
+global.sockets = {};
 
 app.use(session({
   resave: false,
@@ -33,7 +32,7 @@ sequelize
   });
 
 app.ws('/', function(ws, req) {
-  createSession(req, ws);
+  initFirstResponder(req, ws);
 });
 
 app.listen(3000);
@@ -42,17 +41,25 @@ module.exports = app;
 
 ////////////////
 
-function createSession(req, socket) {
-  req.session.user = {
-    id: _.max(global.sessions, 'id'),
-    position: {
-      x: req.query.x,
-      y: req.query.y
-    },
-    socket: socket
-  };
+function initFirstResponder(req, socket) {
+  sequelize.models.firstResponder.findOne({ where: { token: req.query.token } }).then((responder) => {
+    if (responder) {
+      return responder.update({
+        x: 22,
+        y: req.query.y
+      });
+    } else {
+      return sequelize.models.firstResponder.create({
+        x: req.query.x,
+        y: req.query.y,
+        token: req.query.token
+      });
+    }
+  }).then((responder) => {
+    addSocket(responder, socket);
+  });
+}
 
-  global.sessions.push(req.session);
-
-  req.session.save();
+function addSocket(firstResponder, socket) {
+  global.sockets[firstResponder.id] = socket;
 }
