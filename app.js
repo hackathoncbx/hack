@@ -21,6 +21,7 @@ sequelize
     });
 
     require('./routes/users')('/users', app, sequelize);
+    require('./routes/alerts')('/alerts', app, sequelize);
   });
 
 app.listen(3000);
