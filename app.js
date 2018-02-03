@@ -33,6 +33,10 @@ sequelize
 
 app.ws('/', function(ws, req) {
   initFirstResponder(req, ws);
+
+  ws.on('close', function() {
+    delete global.sockets[req.session.responderId];
+  });
 });
 
 app.listen(3000);
@@ -56,10 +60,11 @@ function initFirstResponder(req, socket) {
       });
     }
   }).then((responder) => {
-    addSocket(responder, socket);
+    addSocket(responder, socket, req);
   });
 }
 
-function addSocket(firstResponder, socket) {
+function addSocket(firstResponder, socket, req) {
+  req.session.responderId = firstResponder.id;
   global.sockets[firstResponder.id] = socket;
 }

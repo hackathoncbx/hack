@@ -10,6 +10,7 @@ module.exports = (route, app, sequelize) => {
     });
 
     const ids = Object.keys(global.sockets);
+
     sequelize.models.firstResponder.findAll({ where: { id: ids } }).then((responders) => {
       _.each(responders, (responder) => {
         global.sockets[responder.id].send(data);
