@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-module.exports = (route, app) => {
+module.exports = (route, app, sequelize) => {
   router.get('/', function(_req, res) {
     const data = [{ id: 3 }, { id: 4 }];
     res.send(JSON.stringify(data));

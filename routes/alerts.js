@@ -1,6 +1,5 @@
-const _ = require('lodash');
-const express = require('express');
-const router = express.Router();
+const _each = require('lodash/each');
+const router = require('express').Router();
 
 module.exports = (route, app, sequelize) => {
   router.post('/', function(req, res) {
@@ -11,7 +10,7 @@ module.exports = (route, app, sequelize) => {
 
     const ids = Object.keys(global.sockets);
     sequelize.models.firstResponder.findAll({ where: { id: ids } }).then((responders) => {
-      _.each(responders, (responder) => {
+      _each(responders, (responder) => {
         global.sockets[responder.id].send(data);
       });
 

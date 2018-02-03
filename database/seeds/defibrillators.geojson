@@ -1,0 +1,267 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "building": "Maison Francis Brisson",
+        "address": "15, Avenue de Grand-Mère",
+        "model": "LifePack Plus",
+        "source": "Ville de Shawinigan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.6822718,
+          46.6204874
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "building": "Centre des Arts",
+        "address": "2100, Boul. des Hêtres",
+        "model": "LifePack Plus",
+        "source": "Ville de Shawinigan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.7483524,
+          46.5589794
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "building": "Centre communautaire",
+        "address": "1594, chemin de St-Jean-des-Piles",
+        "model": "LifePack Plus",
+        "source": "Ville de Shawinigan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.7410582,
+          46.691801
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "building": "Centre multiservices",
+        "address": "1375, chemin Principal (St-Gérard)",
+        "model": null,
+        "source": "NULLVille de Shawinigan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.8138393,
+          46.6024698
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "building": "Centre communautaire",
+        "address": "431, chemin des Frênes (St-Gérard)",
+        "model": "LifePack Express",
+        "source": "Ville de Shawinigan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.8127363,
+          46.60095
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "building": "Maison du citoyen",
+        "address": "505, 205e Avenue (St-Georges)",
+        "model": "LifePack Plus",
+        "source": "Ville de Shawinigan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.6588215,
+          46.6255698
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "building": "Station plein air Val-Mauricie",
+        "address": "1700, rue de Val-Mauricie (Shawi-Sud)",
+        "model": "Zoll AED 3",
+        "source": "Ville de Shawinigan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.7603358,
+          46.5221049
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "building": "Salle communautaire Lupien",
+        "address": "1071, ch. de la Vigilance (Lac-à-la-Tortue)",
+        "model": "LifePack Plus",
+        "source": "Ville de Shawinigan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.6328242,
+          46.612654
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "building": "Centre communautaire C-Langevin",
+        "address": "4161, chemin de Ste-Flore (Grand-Mère)",
+        "model": "LifePack Plus",
+        "source": "Ville de Shawinigan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.7420832,
+          46.610576
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "building": "Centre communautaire Shawinigan",
+        "address": "253, 3e rue de la Pointe (Shawinigan)",
+        "model": "LifePack Plus",
+        "source": "Ville de Shawinigan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.7460692,
+          46.53913
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "building": "Hôtel de ville - Salle du conseil",
+        "address": "550, avenue de l'hôtel-de-Ville",
+        "model": "Zoll AED 3",
+        "source": "Ville de Shawinigan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.7459492,
+          46.541105
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "building": "Amphithéâtre (Entrée)",
+        "address": "1, rue Jacques-Plante",
+        "model": "Zoll AED 3",
+        "source": "Ville de Shawinigan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.745599,
+          46.5471887
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "building": "Amphithéâtre (Chambre)",
+        "address": "1, rue Jacques-Plante",
+        "model": "Zoll AED 3",
+        "source": "Ville de Shawinigan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.745599,
+          46.5471887
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "building": "Aréna Grand-Mère",
+        "address": "601, 3e Avenue",
+        "model": "Zoll AED 3",
+        "source": "Ville de Shawinigan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.6903362,
+          46.612322
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "building": "Aréna Gilles-Bourassa",
+        "address": "1609, 117e Rue",
+        "model": "Zoll AED 3",
+        "source": "Ville de Shawinigan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.7560032,
+          46.516978
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "building": "Aréna Émile-Bédard",
+        "address": "540, 207e Avenue",
+        "model": "Zoll AED 3",
+        "source": "Ville de Shawinigan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.6556862,
+          46.625204
+        ]
+      }
+    }
+  ]
+}

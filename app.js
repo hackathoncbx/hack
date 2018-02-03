@@ -27,8 +27,9 @@ sequelize
       next(); // pass control to the next handler
     });
 
-    require('./routes/users')('/users', app, sequelize);
     require('./routes/alerts')('/alerts', app, sequelize);
+    require('./routes/defibrillators')('/defibrillators', app, sequelize);
+    require('./routes/users')('/users', app, sequelize);
   });
 
 app.ws('/', function(ws, req) {
