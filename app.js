@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-const sequelize = require('./config/database');
+const sequelize = require('./init_database');
 
 sequelize
   .authenticate()
