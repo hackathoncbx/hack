@@ -34,6 +34,10 @@ sequelize
 app.ws('/', function(ws, req) {
   initFirstResponder(req, ws);
 
+  ws.on('message', function(msg) {
+    updateLocation(req, JSON.parse(msg));
+  });
+
   ws.on('close', function() {
     delete global.sockets[req.session.responderId];
   });
@@ -49,7 +53,7 @@ function initFirstResponder(req, socket) {
   sequelize.models.firstResponder.findOne({ where: { token: req.query.token } }).then((responder) => {
     if (responder) {
       return responder.update({
-        x: 22,
+        x: req.query.x,
         y: req.query.y
       });
     } else {
@@ -67,4 +71,15 @@ function initFirstResponder(req, socket) {
 function addSocket(firstResponder, socket, req) {
   req.session.responderId = firstResponder.id;
   global.sockets[firstResponder.id] = socket;
+}
+
+function updateLocation(req, data) {
+  sequelize.models.firstResponder.update({
+    x: data.x,
+    y: data.y
+  }, {
+    where: {
+      id: req.session.responderId
+    }
+  });
 }
