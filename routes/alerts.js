@@ -9,9 +9,10 @@ module.exports = (route, app, sequelize) => {
       y: req.body.position.y
     });
 
-    sequelize.models.firstResponder.findAll().then((responders) => {
+    const ids = Object.keys(global.sockets);
+    sequelize.models.firstResponder.findAll({ where: { id: ids } }).then((responders) => {
       _.each(responders, (responder) => {
-        global.sockets[responder.id] && global.sockets[responder.id].send(data);
+        global.sockets[responder.id].send(data);
       });
 
       const token = req.body.token;
