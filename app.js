@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 
 const app = express();
+require('express-ws')(app);
 
 global.sessions = [];
 
@@ -28,33 +29,30 @@ sequelize
     });
 
     require('./routes/users')('/users', app, sequelize);
+    require('./routes/warnings')('/warnings', app, sequelize);
   });
+
+app.ws('/', function(ws, req) {
+  createSession(req, ws);
+});
 
 app.listen(3000);
-
-const usersSockets = {};
-const webSocketServer = new (require('ws')).Server({ port: 5000 });
-webSocketServer.on('connection', (socket, req) => {
-  createSession(req);
-  usersSockets[req.session.id] = socket;
-
-  socket.on('message', function(message) {
-
-  });
-});
 
 module.exports = app;
 
 ////////////////
 
-function createSession(req) {
+function createSession(req, socket) {
   req.session.user = {
     id: _.max(global.sessions, 'id'),
     position: {
-      x: req.body.position.x,
-      y: req.body.position.y
-    }
+      x: req.query.x,
+      y: req.query.y
+    },
+    socket: socket
   };
 
-  global.sessions.push(req.session.user);
+  global.sessions.push(req.session);
+
+  req.session.save();
 }
