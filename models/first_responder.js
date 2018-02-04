@@ -10,11 +10,11 @@ module.exports = {
         field: 'phoneNumber'
       },
       x: {
-        type: sequelize.constructor.DECIMAL,
+        type: sequelize.constructor.DOUBLE,
         field: 'x'
       },
       y: {
-        type: sequelize.constructor.DECIMAL,
+        type: sequelize.constructor.DOUBLE,
         field: 'y'
       }
     });
