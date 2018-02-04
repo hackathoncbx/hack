@@ -97,7 +97,7 @@ module.exports = (route, app, sequelize) => {
               });
             }
           });
-        }, 1000 * 10);
+        }, 1000 * 30);
       });
     });
   }
