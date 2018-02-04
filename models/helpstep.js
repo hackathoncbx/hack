@@ -5,6 +5,10 @@ module.exports = {
 
   model: function(sequelize) {
     const Model = sequelize.define('helpstep', {
+      categoryId: {
+        type: sequelize.constructor.INTEGER,
+        field: 'categoryId'
+      },
       step: {
         type: sequelize.constructor.INTEGER,
         field: 'step'
