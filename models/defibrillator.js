@@ -2,11 +2,11 @@ module.exports = {
   model: function(sequelize) {
     const Model = sequelize.define('defibrillator', {
       long: {
-        type: sequelize.constructor.DECIMAL,
+        type: sequelize.constructor.DOUBLE,
         field: 'longitude'
       },
       lat: {
-        type: sequelize.constructor.DECIMAL,
+        type: sequelize.constructor.DOUBLE,
         field: 'lat'
       },
       building: {
