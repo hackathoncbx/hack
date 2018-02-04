@@ -1,4 +1,4 @@
-const localizable = require("./localizable");
+const localizable = require('./localizable');
 
 module.exports = {
   model: function(sequelize) {

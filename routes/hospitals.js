@@ -1,4 +1,4 @@
-const localizable = require("../models/localizable");
+const localizable = require('../models/localizable');
 const _map = require('lodash/map');
 const router = require('express').Router();
 

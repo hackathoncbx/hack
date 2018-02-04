@@ -2,6 +2,7 @@
 "type": "FeatureCollection",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
 "features": [
+{ "type": "Feature", "properties": { "osm_id": "4327539690", "code": 2422, "fclass": "hospital", "name": "Centre hospitalier du Centre-de-la-mauricie" }, "geometry": { "type": "Point", "coordinates": [ -72.743056, 46.525777 ] } },
 { "type": "Feature", "properties": { "osm_id": "4327539690", "code": 2422, "fclass": "camp_site", "name": "Camping lac Blais" }, "geometry": { "type": "Point", "coordinates": [ -72.8027021, 46.4632146 ] } },
 { "type": "Feature", "properties": { "osm_id": "3708759903", "code": 2101, "fclass": "pharmacy", "name": "Pharmaprix" }, "geometry": { "type": "Point", "coordinates": [ -72.5909119, 46.3350515 ] } },
 { "type": "Feature", "properties": { "osm_id": "3708759904", "code": 2129, "fclass": "veterinary", "name": "Hôpital vétérinaire de Trois-Rivières" }, "geometry": { "type": "Point", "coordinates": [ -72.590302, 46.335495 ] } },
