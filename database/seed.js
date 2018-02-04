@@ -1,5 +1,5 @@
 module.exports = function(sequelize, options) {
-  const seeds = ["first_responder", "defibrillators"];
+  const seeds = ["first_responder", "defibrillators", "drug_stores_and_hospitals"];
 
   return seeds.reduce(function(cur, next) {
     return cur.then(function() {

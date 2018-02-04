@@ -6,9 +6,9 @@ const defibrillators = JSON.parse(require('fs').readFileSync(defibrillatorsPath,
 module.exports = function(sequelize, options) {
   return sequelize.models.defibrillator.bulkCreate(_map(defibrillators.features, (defibrillator) => {
     return {
-      long: defibrillator.geometry.coordinates[0],
-      lat: defibrillator.geometry.coordinates[1],
-      building: defibrillator.properties.building,
+      longitude: defibrillator.geometry.coordinates[0],
+      latitude: defibrillator.geometry.coordinates[1],
+      name: defibrillator.properties.name,
       model: defibrillator.properties.model,
       source: defibrillator.properties.source,
       address: defibrillator.properties.address
