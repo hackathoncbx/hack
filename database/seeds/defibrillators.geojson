@@ -10,7 +10,7 @@
     {
       "type": "Feature",
       "properties": {
-        "building": "Maison Francis Brisson",
+        "name": "Maison Francis Brisson",
         "address": "15, Avenue de Grand-Mère",
         "model": "LifePack Plus",
         "source": "Ville de Shawinigan"
@@ -26,7 +26,7 @@
     {
       "type": "Feature",
       "properties": {
-        "building": "Centre des Arts",
+        "name": "Centre des Arts",
         "address": "2100, Boul. des Hêtres",
         "model": "LifePack Plus",
         "source": "Ville de Shawinigan"
@@ -42,7 +42,7 @@
     {
       "type": "Feature",
       "properties": {
-        "building": "Centre communautaire",
+        "name": "Centre communautaire",
         "address": "1594, chemin de St-Jean-des-Piles",
         "model": "LifePack Plus",
         "source": "Ville de Shawinigan"
@@ -58,7 +58,7 @@
     {
       "type": "Feature",
       "properties": {
-        "building": "Centre multiservices",
+        "name": "Centre multiservices",
         "address": "1375, chemin Principal (St-Gérard)",
         "model": null,
         "source": "NULLVille de Shawinigan"
@@ -74,7 +74,7 @@
     {
       "type": "Feature",
       "properties": {
-        "building": "Centre communautaire",
+        "name": "Centre communautaire",
         "address": "431, chemin des Frênes (St-Gérard)",
         "model": "LifePack Express",
         "source": "Ville de Shawinigan"
@@ -90,7 +90,7 @@
     {
       "type": "Feature",
       "properties": {
-        "building": "Maison du citoyen",
+        "name": "Maison du citoyen",
         "address": "505, 205e Avenue (St-Georges)",
         "model": "LifePack Plus",
         "source": "Ville de Shawinigan"
@@ -106,7 +106,7 @@
     {
       "type": "Feature",
       "properties": {
-        "building": "Station plein air Val-Mauricie",
+        "name": "Station plein air Val-Mauricie",
         "address": "1700, rue de Val-Mauricie (Shawi-Sud)",
         "model": "Zoll AED 3",
         "source": "Ville de Shawinigan"
@@ -122,7 +122,7 @@
     {
       "type": "Feature",
       "properties": {
-        "building": "Salle communautaire Lupien",
+        "name": "Salle communautaire Lupien",
         "address": "1071, ch. de la Vigilance (Lac-à-la-Tortue)",
         "model": "LifePack Plus",
         "source": "Ville de Shawinigan"
@@ -138,7 +138,7 @@
     {
       "type": "Feature",
       "properties": {
-        "building": "Centre communautaire C-Langevin",
+        "name": "Centre communautaire C-Langevin",
         "address": "4161, chemin de Ste-Flore (Grand-Mère)",
         "model": "LifePack Plus",
         "source": "Ville de Shawinigan"
@@ -154,7 +154,7 @@
     {
       "type": "Feature",
       "properties": {
-        "building": "Centre communautaire Shawinigan",
+        "name": "Centre communautaire Shawinigan",
         "address": "253, 3e rue de la Pointe (Shawinigan)",
         "model": "LifePack Plus",
         "source": "Ville de Shawinigan"
@@ -170,7 +170,7 @@
     {
       "type": "Feature",
       "properties": {
-        "building": "Hôtel de ville - Salle du conseil",
+        "name": "Hôtel de ville - Salle du conseil",
         "address": "550, avenue de l'hôtel-de-Ville",
         "model": "Zoll AED 3",
         "source": "Ville de Shawinigan"
@@ -186,7 +186,7 @@
     {
       "type": "Feature",
       "properties": {
-        "building": "Amphithéâtre (Entrée)",
+        "name": "Amphithéâtre (Entrée)",
         "address": "1, rue Jacques-Plante",
         "model": "Zoll AED 3",
         "source": "Ville de Shawinigan"
@@ -202,7 +202,7 @@
     {
       "type": "Feature",
       "properties": {
-        "building": "Amphithéâtre (Chambre)",
+        "name": "Amphithéâtre (Chambre)",
         "address": "1, rue Jacques-Plante",
         "model": "Zoll AED 3",
         "source": "Ville de Shawinigan"
@@ -218,7 +218,7 @@
     {
       "type": "Feature",
       "properties": {
-        "building": "Aréna Grand-Mère",
+        "name": "Aréna Grand-Mère",
         "address": "601, 3e Avenue",
         "model": "Zoll AED 3",
         "source": "Ville de Shawinigan"
@@ -234,7 +234,7 @@
     {
       "type": "Feature",
       "properties": {
-        "building": "Aréna Gilles-Bourassa",
+        "name": "Aréna Gilles-Bourassa",
         "address": "1609, 117e Rue",
         "model": "Zoll AED 3",
         "source": "Ville de Shawinigan"
@@ -250,7 +250,7 @@
     {
       "type": "Feature",
       "properties": {
-        "building": "Aréna Émile-Bédard",
+        "name": "Aréna Émile-Bédard",
         "address": "540, 207e Avenue",
         "model": "Zoll AED 3",
         "source": "Ville de Shawinigan"
