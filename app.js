@@ -97,14 +97,15 @@ function updateLocation(req, data) {
 
 function takeAlert(data, req) {
   sequelize.models.alert.update({
-    taken: true
+    taken: true,
+    firstResponderId: req.session.responderId
   }, {
     where: { id: data.id }
   }).then(() => {
     return sequelize.models.alertFirstResponder.findAll({ where: { alertId: data.id } });
   }).then((alertsFirstResponders) => {
     _each(alertsFirstResponders, (alertFirstResponder) => {
-      if (req.session.responderId == alertFirstResponder.responderId) return;
+      if (req.session.responderId == alertFirstResponder.responderId || !global.sockets[alertFirstResponder.responderId]) return;
       global.sockets[alertFirstResponder.responderId].send(JSON.stringify({ type: 'alertCancelled', data: { id: data.id } }));
     });
   });

@@ -10,6 +10,13 @@ module.exports = (route, app, sequelize) => {
     }, {
       where: { id: req.params.id }
     }).then(() => {
+      return sequelize.models.alert.findOne({ where: { id: req.params.id } });
+    }).then((alert) => {
+      const socket = global.sockets[alert.firstResponderId];
+      if (socket) {
+        const data = { type: 'alertUpdated', data: { id: alert.id, category: alert.category } };
+        socket.send(JSON.stringify(data));
+      }
       res.send();
     });
   });
