@@ -1,12 +1,12 @@
 const _map = require('lodash/map');
 const _filter = require('lodash/filter');
 const path = require('path');
-const pointsOfInteretsPath = path.join(__dirname, "points_of_interets_4326.geojson");
+const pointsOfInteretsPath = path.join(__dirname, 'points_of_interets_4326.geojson');
 const pointsOfInterets = JSON.parse(require('fs').readFileSync(pointsOfInteretsPath, 'utf8'));
 
 module.exports = function(sequelize, options) {
-  const drugStores = _filter(pointsOfInterets.features, (r) => { return r.properties.fclass == "pharmacy"; });
-  const hospitals = _filter(pointsOfInterets.features, (r) => { return r.properties.fclass == "hospital"; });
+  const drugStores = _filter(pointsOfInterets.features, (r) => { return r.properties.fclass == 'pharmacy'; });
+  const hospitals = _filter(pointsOfInterets.features, (r) => { return r.properties.fclass == 'hospital'; });
 
   return sequelize.models.drugStore.bulkCreate(_map(drugStores, (drugStore) => {
     return {
