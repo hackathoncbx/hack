@@ -31,6 +31,8 @@ sequelize
     require('./routes/alerts')('/alerts', app, sequelize);
     require('./routes/defibrillators')('/defibrillators', app, sequelize);
     require('./routes/users')('/users', app, sequelize);
+    require('./routes/drug_stores')('/drug_stores', app, sequelize);
+    require('./routes/hospitals')('/hospitals', app, sequelize);
   });
 
 app.ws('/', function(ws, req) {
