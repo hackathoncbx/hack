@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "reset": "node reset.js",
-    "dev": "npm run development",
+    "start": "npm run development",
     "development": "node_modules/nodemon/bin/nodemon.js app.js"
   },
   "dependencies": {
