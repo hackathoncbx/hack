@@ -12,6 +12,14 @@ module.exports = {
       category: {
         type: sequelize.constructor.STRING,
         field: 'category'
+      },
+      x: {
+        type: sequelize.constructor.DOUBLE,
+        field: 'x'
+      },
+      y: {
+        type: sequelize.constructor.DOUBLE,
+        field: 'y'
       }
     });
 

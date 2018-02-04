@@ -5,10 +5,13 @@ const nodemailer = require('nodemailer');
 
 module.exports = (route, app, sequelize) => {
   router.post('/', function(req, res) {
-    sequelize.models.alert.create().then((alert) => {
+    const x = req.body.position.x;
+    const y = req.body.position.y;
+
+    sequelize.models.alert.create({ x: x, y: y }).then((alert) => {
       const data = {
-        x: req.body.position.x,
-        y: req.body.position.y,
+        x: x,
+        y: y,
         alertId: alert.id
       };
 
