@@ -36,11 +36,18 @@ module.exports = (route, app, sequelize) => {
     const longitude = req.body.position.longitude;
     const token = req.body.token;
 
-    sequelize.models.alert.create({ token: token, latitude: latitude, longitude: longitude }).then((alert) => {
+    const p1 = sequelize.models.alert.create({ token: token, latitude: latitude, longitude: longitude });
+    const p2 = sequelize.models.user.findOne({ token: token });
+
+    Promise.all([p1, p2]).then((values) => {
+      const alert = values[0];
+      const user = values[1];
+
       const data = {
         longitude: longitude,
         latitude: latitude,
-        alertId: alert.id
+        alertId: alert.id,
+        user: user
       };
 
       const gen = radiusGenerator();
