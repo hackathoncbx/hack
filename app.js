@@ -37,6 +37,13 @@ app.ws('/', function(ws, req) {
 
   ws.on('message', function(msg) {
     updateLocation(req, JSON.parse(msg));
+
+    const data = JSON.parse(msg);
+    if (data.location) {
+      updateLocation(req, data.location);
+    } else if (data.takeAlert) {
+      takeAlert(req, data.takeAlert);
+    }
   });
 
   ws.on('close', function() {
@@ -82,5 +89,13 @@ function updateLocation(req, data) {
     where: {
       id: req.session.responderId
     }
+  });
+}
+
+function takeAlert(data) {
+  sequelize.models.alert.update({
+    taken: true
+  }, {
+    where: { id: data.id }
   });
 }

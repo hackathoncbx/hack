@@ -35,7 +35,7 @@ module.exports = (route, app, sequelize) => {
       if (responders && responders.length) {
         setTimeout(() => {
           sequelize.models.alert.findOne({ where: { id: data.alertId } }).then((alert) => {
-            if (!alert.resolved) pokeNearReponders(distanceGenerator, data);
+            if (!alert.taken) pokeNearReponders(distanceGenerator, data);
           });
         }, 1000 * 20);
         return responders;

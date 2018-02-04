@@ -1,7 +1,7 @@
 module.exports = {
   model: function(sequelize) {
     const Model = sequelize.define('alert', {
-      resolved: {
+      taken: {
         type: sequelize.constructor.BOOLEAN,
         field: 'status'
       }
