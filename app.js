@@ -1,3 +1,4 @@
+const _each = require('lodash/each');
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
@@ -39,6 +40,13 @@ app.ws('/', function(ws, req) {
 
   ws.on('message', function(msg) {
     updateLocation(req, JSON.parse(msg));
+
+    const data = JSON.parse(msg);
+    if (data.location) {
+      updateLocation(req, data.location);
+    } else if (data.takeAlert) {
+      takeAlert(data.takeAlert, req);
+    }
   });
 
   ws.on('close', function() {
@@ -83,6 +91,48 @@ function updateLocation(req, data) {
   }, {
     where: {
       id: req.session.responderId
+    }
+  });
+}
+
+function takeAlert(data, req) {
+  sequelize.models.alert.update({
+    taken: true
+  }, {
+    where: { id: data.id }
+  }).then(() => {
+    return sequelize.models.alertFirstResponder.findAll({ where: { alertId: data.id } });
+  }).then((alertsFirstResponders) => {
+    _each(alertsFirstResponders, (alertFirstResponder) => {
+      if (req.session.responderId == alertFirstResponder.responderId) return;
+      global.sockets[alertFirstResponder.responderId].send(JSON.stringify({ type: 'alertCancelled', data: { id: data.id } }));
+    });
+  });
+}
+
+//Email mailing service
+const nodemailer = require('nodemailer');
+//sendEmail('numeroDeTelephonne@com.com', 'Contenu du message');
+
+function sendEmail(sendTo, message) {
+  const transport = nodemailer.createTransport({
+    service: 'outlook',
+    auth: {
+      user: 'hackathonshawinigan@outlook.com',
+      pass: 'myPassword123'
+    }
+  });
+  const mailOptions = {
+    from: 'hackathonshawinigan@outlook.com',
+    to: sendTo,
+    subject: 'Important Alert',
+    text: message
+  };
+  transport.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent ' + info.response);
     }
   });
 }
