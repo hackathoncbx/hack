@@ -2,6 +2,7 @@ const _ = require('lodash');
 const router = require('express').Router();
 const distance = require('google-distance');
 const nodemailer = require('nodemailer');
+const Sequelize = require('sequelize');
 
 module.exports = (route, app, sequelize) => {
   router.put('/:id', (req, res) => {
@@ -53,7 +54,7 @@ module.exports = (route, app, sequelize) => {
       const gen = radiusGenerator();
 
       const ids = _.map(Object.keys(global.sockets), _.parseInt);
-      pokeNearReponders(gen, data, ids, 0).then((number) => {
+      pokeNearReponders(token, gen, data, ids, 0).then((number) => {
         if (!number) {
           // getFirstResponders([], gen.next().value, data.x, data.y).then((responders) => {
           //   if (responders && responders.length) {
@@ -73,16 +74,16 @@ module.exports = (route, app, sequelize) => {
 
   ////////////////
 
-  function pokeNearReponders(distanceGenerator, data, ids, numberSent) {
+  function pokeNearReponders(token, distanceGenerator, data, ids, numberSent) {
     const generatedDistance = distanceGenerator.next();
 
     if (generatedDistance.done || !ids.length) return Promise.resolve(numberSent);
 
-    return getFirstResponders(ids, generatedDistance.value, data.latitude, data.longitude).then((responders) => {
+    return getFirstResponders(token, ids, generatedDistance.value, data.latitude, data.longitude).then((responders) => {
       if (responders && responders.length) {
         return responders;
       } else {
-        return pokeNearReponders(distanceGenerator, data, ids, numberSent);
+        return pokeNearReponders(token, distanceGenerator, data, ids, numberSent);
       }
     }).then((responders) => {
       return send(responders, data);
@@ -92,7 +93,7 @@ module.exports = (route, app, sequelize) => {
           const diffIds = _.difference(ids, _.map(responders, (responder) => { return responder.id; }));
           sequelize.models.alert.findOne({ where: { id: data.alertId } }).then((alert) => {
             if (!alert.taken) {
-              pokeNearReponders(distanceGenerator, data, diffIds, numberSent + responders.length).then((number) => {
+              pokeNearReponders(token, distanceGenerator, data, diffIds, numberSent + responders.length).then((number) => {
                 resolve(number);
               });
             }
@@ -108,8 +109,11 @@ module.exports = (route, app, sequelize) => {
     yield 20;
   }
 
-  function getFirstResponders(ids, maxDistance, latitude, longitude) {
-    const query = ids.length ? { where: { id: ids } } : {};
+  function getFirstResponders(token, ids, maxDistance, latitude, longitude) {
+    const query = { where: { token: { [Sequelize.Op.not]: token } } };
+    if (ids.length) {
+      query.where.id = ids;
+    }
     return sequelize.models.firstResponder.findAll(query).then((responders) => {
       const usersArray = [];
       const promises = [];
