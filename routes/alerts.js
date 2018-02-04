@@ -26,15 +26,17 @@ module.exports = (route, app, sequelize) => {
         });
       }
 
-      res.send();
+      res.json({});
     });
   });
 
   router.post('/', function(req, res) {
+    req.body.position = req.body.position || {};
     const latitude = req.body.position.latitude;
     const longitude = req.body.position.longitude;
+    const token = req.body.token;
 
-    sequelize.models.alert.create({ token: req.body.token, latitude: latitude, longitude: longitude }).then((alert) => {
+    sequelize.models.alert.create({ token: token, latitude: latitude, longitude: longitude }).then((alert) => {
       const data = {
         longitude: longitude,
         latitude: latitude,
@@ -56,8 +58,7 @@ module.exports = (route, app, sequelize) => {
         }
       });
 
-      const token = req.body.token;
-      res.send(`Client token is: ${ token }, alert id is : ${ alert.id }`);
+      res.json({ token: token, id: alert.id });
     });
   });
 
