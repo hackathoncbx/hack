@@ -107,3 +107,30 @@ function takeAlert(data, req) {
     });
   });
 }
+
+//Email mailing service
+const nodemailer = require('nodemailer');
+//sendEmail('numeroDeTelephonne@com.com', 'Contenu du message');
+
+function sendEmail(sendTo, message){
+    const transport = nodemailer.createTransport({
+        service:'outlook',
+        auth: {
+            user: 'hackathonshawinigan@outlook.com',
+            pass: 'myPassword123'
+        }
+    });
+    const mailOptions = {
+        from: 'hackathonshawinigan@outlook.com',
+        to: sendTo,
+        subject: 'Important Alert',
+        text: message
+    };
+    transport.sendMail(mailOptions, (error, info) => {
+        if (error){
+            console.log(error);
+        } else {
+            console.log('Email sent ' + info.response);
+        }
+    })
+}
