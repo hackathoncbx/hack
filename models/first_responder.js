@@ -9,7 +9,7 @@ module.exports = {
         type: sequelize.constructor.STRING,
         field: 'token'
       },
-      name: {
+      phoneNumber: {
         type: sequelize.constructor.STRING,
         field: 'phoneNumber'
       },
