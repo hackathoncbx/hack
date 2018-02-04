@@ -30,13 +30,13 @@ module.exports = (route, app, sequelize) => {
       const ids = _.map(Object.keys(global.sockets), _.parseInt);
       pokeNearReponders(gen, data, ids, 0).then((number) => {
         if (!number) {
-          getFirstResponders([], gen.next().value, data.x, data.y).then((responders) => {
-            if (responders && responders.length) {
-              _.each(responders, (responder) => {
-                // sendSms(responder.phoneNumber + responder.provider, 'stuff');
-              });
-            }
-          });
+          // getFirstResponders([], gen.next().value, data.x, data.y).then((responders) => {
+          //   if (responders && responders.length) {
+          //     _.each(responders, (responder) => {
+          //       sendSms(responder.phoneNumber + responder.provider, 'stuff');
+          //     });
+          //   }
+          // });
         }
       });
 
