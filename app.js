@@ -1,3 +1,4 @@
+const _each = require('lodash/each');
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
@@ -42,7 +43,7 @@ app.ws('/', function(ws, req) {
     if (data.location) {
       updateLocation(req, data.location);
     } else if (data.takeAlert) {
-      takeAlert(req, data.takeAlert);
+      takeAlert(data.takeAlert, req);
     }
   });
 
@@ -92,10 +93,17 @@ function updateLocation(req, data) {
   });
 }
 
-function takeAlert(data) {
+function takeAlert(data, req) {
   sequelize.models.alert.update({
     taken: true
   }, {
     where: { id: data.id }
+  }).then(() => {
+    return sequelize.models.alertFirstResponder.findAll({ where: { alertId: data.id } });
+  }).then((alertsFirstResponders) => {
+    _each(alertsFirstResponders, (alertFirstResponder) => {
+      if (req.session.responderId == alertFirstResponder.responderId) return;
+      global.sockets[alertFirstResponder.responderId].send(JSON.stringify({ type: 'alertCancelled', data: { id: data.id } }));
+    });
   });
 }

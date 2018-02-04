@@ -1,4 +1,4 @@
-const _each = require('lodash/each');
+const _ = require('lodash');
 const router = require('express').Router();
 const distance = require('google-distance');
 
@@ -13,10 +13,11 @@ module.exports = (route, app, sequelize) => {
 
       const gen = radiusGenerator();
 
-      pokeNearReponders(gen, data);
+      const ids = _.map(Object.keys(global.sockets), _.parseInt);
+      pokeNearReponders(gen, data, ids);
 
       const token = req.body.token;
-      res.send(`Client token is: ${ token }`);
+      res.send(`Client token is: ${ token }, alert id is : ${ alert.id }`);
     });
   });
 
@@ -24,28 +25,26 @@ module.exports = (route, app, sequelize) => {
 
   ////////////////
 
-  function pokeNearReponders(distanceGenerator, data) {
-    const ids = Object.keys(global.sockets);
-
+  function pokeNearReponders(distanceGenerator, data, ids) {
     const generatedDistance = distanceGenerator.next();
 
-    if (generatedDistance.done) return [];
+    if (generatedDistance.done || !ids.length) return [];
 
     return getFirstResponders(ids, generatedDistance.value, data.x, data.y).then((responders) => {
       if (responders && responders.length) {
-        setTimeout(() => {
-          sequelize.models.alert.findOne({ where: { id: data.alertId } }).then((alert) => {
-            if (!alert.taken) pokeNearReponders(distanceGenerator, data);
-          });
-        }, 1000 * 20);
         return responders;
       } else {
-        return pokeNearReponders(distanceGenerator, data);
+        return pokeNearReponders(distanceGenerator, data, ids);
       }
     }).then((responders) => {
-      _each(responders, (responder) => {
-        global.sockets[responder.id].send(JSON.stringify(data));
-      });
+      return send(responders, data);
+    }).then((responders) => {
+      setTimeout(() => {
+        const diffIds = _.difference(ids, _.map(responders, (responder) => { return responder.id; }));
+        sequelize.models.alert.findOne({ where: { id: data.alertId } }).then((alert) => {
+          if (!alert.taken) pokeNearReponders(distanceGenerator, data, diffIds);
+        });
+      }, 1000 * 10);
     });
   }
 
@@ -53,13 +52,16 @@ module.exports = (route, app, sequelize) => {
     yield 10;
     yield 15;
     yield 20;
+    yield 30;
+    yield 40;
+    yield 50;
   }
 
   function getFirstResponders(ids, maxDistance, x, y) {
     return sequelize.models.firstResponder.findAll({ where: { id: ids } }).then((responders) => {
       const usersArray = [];
       const promises = [];
-      _each(responders, (responder) => {
+      _.each(responders, (responder) => {
         const promise = new Promise(function(resolve, reject) {
           distance.get({
             origin: `${x}, ${y}`,
@@ -81,6 +83,20 @@ module.exports = (route, app, sequelize) => {
       return Promise.all(promises).then(() => {
         return usersArray;
       });
+    });
+  }
+
+  function send(responders, data) {
+    const alertFirstResponders = _.map(responders, function(responder) {
+      return { alertId: data.alertId, firstResponderId: responder.id };
+    });
+
+    return sequelize.models.alertFirstResponder.bulkCreate(alertFirstResponders).then(() => {
+      _.each(responders, (responder) => {
+        global.sockets[responder.id].send(JSON.stringify({ type: 'newAlert', data: data }));
+      });
+
+      return responders;
     });
   }
 };
