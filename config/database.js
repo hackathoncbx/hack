@@ -4,7 +4,7 @@ const Op = Sequelize.Op;
 let env;
 try { env = require('../.env.json'); } catch (e) { env = {}; }
 
-const sequelize = new Sequelize(env.database || 'hackathon', env.user || 'root', env.password || 'password', {
+const sequelize = new Sequelize(env.database || 'hackathon', env.user || 'root', env.password || '', {
   host: env.host || 'localhost',
   dialect: 'mysql',
   operatorsAliases: Op,

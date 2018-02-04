@@ -1,10 +1,10 @@
 module.exports = {
+  relations: function(models) {
+    this.belongsTo(models.help);
+  },
+
   model: function(sequelize) {
-    const Model = sequelize.define('helpsteps', {
-      category: {
-        type: sequelize.constructor.STRING,
-        field: 'category'
-      },
+    const Model = sequelize.define('helpstep', {
       step: {
         type: sequelize.constructor.INTEGER,
         field: 'step'
