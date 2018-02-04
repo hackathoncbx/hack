@@ -7,7 +7,7 @@ module.exports = (route, app, sequelize) => {
       const data = _map(defibrillators, (defibrillator) => {
         defibrillator.coordinates = [defibrillator.long, defibrillator.lat];
         return {
-          coordinates: [defibrillator.long, defibrillator.lat],
+          coordinates: { latitude: defibrillator.lat, longitude: defibrillator.long },
           building: defibrillator.building,
           model: defibrillator.model,
           source: defibrillator.source,
