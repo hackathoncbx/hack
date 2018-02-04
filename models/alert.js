@@ -8,6 +8,10 @@ module.exports = {
       taken: {
         type: sequelize.constructor.BOOLEAN,
         field: 'status'
+      },
+      category: {
+        type: sequelize.constructor.STRING,
+        field: 'category'
       }
     });
 
