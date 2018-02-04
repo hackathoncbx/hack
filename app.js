@@ -33,6 +33,7 @@ sequelize
     require('./routes/users')('/users', app, sequelize);
     require('./routes/drug_stores')('/drug_stores', app, sequelize);
     require('./routes/hospitals')('/hospitals', app, sequelize);
+    require('./routes/helps')('/helps', app, sequelize);
   });
 
 app.ws('/', function(ws, req) {
