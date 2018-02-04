@@ -4,6 +4,16 @@ const distance = require('google-distance');
 const nodemailer = require('nodemailer');
 
 module.exports = (route, app, sequelize) => {
+  router.put('/:id', (req, res) => {
+    sequelize.models.alert.update({
+      category: req.body.category
+    }, {
+      where: { id: req.params.id }
+    }).then(() => {
+      res.send();
+    });
+  });
+
   router.post('/', function(req, res) {
     const x = req.body.position.x;
     const y = req.body.position.y;
@@ -22,9 +32,8 @@ module.exports = (route, app, sequelize) => {
         if (!number) {
           getFirstResponders([], gen.next().value, data.x, data.y).then((responders) => {
             if (responders && responders.length) {
-              sendSms(responders);
               _.each(responders, (responder) => {
-                sendSms(responder.phoneNumber + responder.provider, 'stuff');
+                // sendSms(responder.phoneNumber + responder.provider, 'stuff');
               });
             }
           });
