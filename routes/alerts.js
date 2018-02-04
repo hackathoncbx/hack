@@ -18,7 +18,12 @@ module.exports = (route, app, sequelize) => {
         const socket = global.sockets[alert.firstResponderId];
         if (socket) socket.send(JSON.stringify(data));
       } else {
-        // sequelize.models.alertFirstResponder
+        sequelize.models.alertFirstResponder.findAll({ where: { alertId: alert.id } }).then((alertsFirstResponders) => {
+          _.each(alertsFirstResponders, (alertFirstResponder) => {
+            const socket = global.sockets[alertFirstResponder.firstResponderId];
+            if (socket) socket.send(JSON.stringify(data));
+          });
+        });
       }
 
       res.send();
