@@ -76,7 +76,7 @@ function initFirstResponder(req, socket) {
       });
     }
   }).then((responder) => {
-    console.log('dsaijodsasadjkodsakdsajkdsajkdasjdasjkoadsjkads');
+    console.log('socket added');
     addSocket(responder, socket, req);
   });
 }

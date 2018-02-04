@@ -93,9 +93,6 @@ module.exports = (route, app, sequelize) => {
     yield 10;
     yield 15;
     yield 20;
-    yield 30;
-    yield 40;
-    yield 50;
   }
 
   function getFirstResponders(ids, maxDistance, latitude, longitude) {
