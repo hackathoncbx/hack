@@ -4,6 +4,27 @@ const distance = require('google-distance');
 const nodemailer = require('nodemailer');
 
 module.exports = (route, app, sequelize) => {
+  router.post('/:id/take', (req, res) => {
+    const token = req.body.token;
+    sequelize.models.firstResponder.findOne({ where: { token: token } }).then((responder) => {
+      sequelize.models.alert.update({
+        taken: true,
+        firstResponderId: responder.id
+      }, {
+        where: { id: req.params.id }
+      }).then(() => {
+        return sequelize.models.alertFirstResponder.findAll({ where: { alertId: req.params.id } });
+      }).then((alertsFirstResponders) => {
+        _.each(alertsFirstResponders, (alertFirstResponder) => {
+          if (req.session.responderId == alertFirstResponder.responderId || !global.sockets[alertFirstResponder.responderId]) return;
+          global.sockets[alertFirstResponder.responderId].send(JSON.stringify({ type: 'alertCancelled', data: { id: req.params.id } }));
+        });
+
+        res.send();
+      });
+    });
+  });
+
   router.put('/:id', (req, res) => {
     sequelize.models.alert.update({
       category: req.body.category
