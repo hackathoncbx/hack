@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const router = require('express').Router();
 const distance = require('google-distance');
+const nodemailer = require('nodemailer');
 
 module.exports = (route, app, sequelize) => {
   router.post('/', function(req, res) {
@@ -14,7 +15,18 @@ module.exports = (route, app, sequelize) => {
       const gen = radiusGenerator();
 
       const ids = _.map(Object.keys(global.sockets), _.parseInt);
-      pokeNearReponders(gen, data, ids);
+      pokeNearReponders(gen, data, ids, 0).then((number) => {
+        if (!number) {
+          getFirstResponders([], gen.next().value, data.x, data.y).then((responders) => {
+            if (responders && responders.length) {
+              sendSms(responders);
+              _.each(responders, (responder) => {
+                sendSms(responder.phoneNumber + responder.provider, 'stuff');
+              });
+            }
+          });
+        }
+      });
 
       const token = req.body.token;
       res.send(`Client token is: ${ token }, alert id is : ${ alert.id }`);
@@ -25,26 +37,32 @@ module.exports = (route, app, sequelize) => {
 
   ////////////////
 
-  function pokeNearReponders(distanceGenerator, data, ids) {
+  function pokeNearReponders(distanceGenerator, data, ids, numberSent) {
     const generatedDistance = distanceGenerator.next();
 
-    if (generatedDistance.done || !ids.length) return [];
+    if (generatedDistance.done || !ids.length) return Promise.resolve(numberSent);
 
     return getFirstResponders(ids, generatedDistance.value, data.x, data.y).then((responders) => {
       if (responders && responders.length) {
         return responders;
       } else {
-        return pokeNearReponders(distanceGenerator, data, ids);
+        return pokeNearReponders(distanceGenerator, data, ids, numberSent);
       }
     }).then((responders) => {
       return send(responders, data);
     }).then((responders) => {
-      setTimeout(() => {
-        const diffIds = _.difference(ids, _.map(responders, (responder) => { return responder.id; }));
-        sequelize.models.alert.findOne({ where: { id: data.alertId } }).then((alert) => {
-          if (!alert.taken) pokeNearReponders(distanceGenerator, data, diffIds);
-        });
-      }, 1000 * 10);
+      return new Promise(function(resolve) {
+        setTimeout(() => {
+          const diffIds = _.difference(ids, _.map(responders, (responder) => { return responder.id; }));
+          sequelize.models.alert.findOne({ where: { id: data.alertId } }).then((alert) => {
+            if (!alert.taken) {
+              pokeNearReponders(distanceGenerator, data, diffIds, numberSent + responders.length).then((number) => {
+                resolve(number);
+              });
+            }
+          });
+        }, 1000 * 10);
+      });
     });
   }
 
@@ -58,7 +76,8 @@ module.exports = (route, app, sequelize) => {
   }
 
   function getFirstResponders(ids, maxDistance, x, y) {
-    return sequelize.models.firstResponder.findAll({ where: { id: ids } }).then((responders) => {
+    const query = ids.length ? { where: { id: ids } } : {};
+    return sequelize.models.firstResponder.findAll(query).then((responders) => {
       const usersArray = [];
       const promises = [];
       _.each(responders, (responder) => {
@@ -97,6 +116,29 @@ module.exports = (route, app, sequelize) => {
       });
 
       return responders;
+    });
+  }
+
+  function sendSms(sendTo, message) {
+    const transport = nodemailer.createTransport({
+      service: 'outlook',
+      auth: {
+        user: 'hackathonshawinigan@outlook.com',
+        pass: 'myPassword123'
+      }
+    });
+    const mailOptions = {
+      from: 'hackathonshawinigan@outlook.com',
+      to: sendTo,
+      subject: 'Important Alert',
+      text: message
+    };
+    transport.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent ' + info.response);
+      }
     });
   }
 };
