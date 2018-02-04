@@ -12,23 +12,27 @@ module.exports = (route, app, sequelize) => {
     }).then(() => {
       return sequelize.models.alert.findOne({ where: { id: req.params.id } });
     }).then((alert) => {
-      const socket = global.sockets[alert.firstResponderId];
-      if (socket) {
-        const data = { type: 'alertUpdated', data: { id: alert.id, category: alert.category } };
-        socket.send(JSON.stringify(data));
+      const data = { type: 'alertUpdated', data: { id: alert.id, category: alert.category } };
+
+      if (alert.firstResponderId) {
+        const socket = global.sockets[alert.firstResponderId];
+        if (socket) socket.send(JSON.stringify(data));
+      } else {
+        // sequelize.models.alertFirstResponder
       }
+
       res.send();
     });
   });
 
   router.post('/', function(req, res) {
-    const x = req.body.position.x;
-    const y = req.body.position.y;
+    const latitude = req.body.position.latitude;
+    const longitude = req.body.position.longitude;
 
-    sequelize.models.alert.create({ token: req.body.token, x: x, y: y }).then((alert) => {
+    sequelize.models.alert.create({ token: req.body.token, latitude: latitude, longitude: longitude }).then((alert) => {
       const data = {
-        x: x,
-        y: y,
+        longitude: longitude,
+        latitude: latitude,
         alertId: alert.id
       };
 
@@ -61,7 +65,7 @@ module.exports = (route, app, sequelize) => {
 
     if (generatedDistance.done || !ids.length) return Promise.resolve(numberSent);
 
-    return getFirstResponders(ids, generatedDistance.value, data.x, data.y).then((responders) => {
+    return getFirstResponders(ids, generatedDistance.value, data.latitude, data.longitude).then((responders) => {
       if (responders && responders.length) {
         return responders;
       } else {
@@ -94,7 +98,7 @@ module.exports = (route, app, sequelize) => {
     yield 50;
   }
 
-  function getFirstResponders(ids, maxDistance, x, y) {
+  function getFirstResponders(ids, maxDistance, latitude, longitude) {
     const query = ids.length ? { where: { id: ids } } : {};
     return sequelize.models.firstResponder.findAll(query).then((responders) => {
       const usersArray = [];
@@ -102,9 +106,10 @@ module.exports = (route, app, sequelize) => {
       _.each(responders, (responder) => {
         const promise = new Promise(function(resolve, reject) {
           distance.get({
-            origin: `${x}, ${y}`,
-            destination: `${responder.x}, ${responder.y}`
+            origin: `${latitude}, ${longitude}`,
+            destination: `${responder.latitude}, ${responder.longitude}`
           }, (error, data) => {
+            console.log('1 :: ', error);
             if (error) return reject();
             const distanceToPoint = data.distance.substring(0, data.distance.length - 3);
             if (distanceToPoint < maxDistance) {
@@ -120,7 +125,11 @@ module.exports = (route, app, sequelize) => {
 
       return Promise.all(promises).then(() => {
         return usersArray;
+      }).catch((error) => {
+        console.log('2 :: ', error);
       });
+    }).catch((error) => {
+      console.log('3 :: ', error);
     });
   }
 

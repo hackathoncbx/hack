@@ -15,13 +15,13 @@ module.exports = {
         type: sequelize.constructor.STRING,
         field: 'category'
       },
-      x: {
+      latitude: {
         type: sequelize.constructor.DOUBLE,
-        field: 'x'
+        field: 'latitude'
       },
-      y: {
+      longitude: {
         type: sequelize.constructor.DOUBLE,
-        field: 'y'
+        field: 'longitude'
       }
     });
 

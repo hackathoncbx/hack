@@ -61,20 +61,22 @@ module.exports = app;
 ////////////////
 
 function initFirstResponder(req, socket) {
+  console.log('init responder');
   sequelize.models.firstResponder.findOne({ where: { token: req.query.token } }).then((responder) => {
     if (responder) {
       return responder.update({
-        x: req.query.x,
-        y: req.query.y
+        longitude: req.query.longitude,
+        latitude: req.query.latitude
       });
     } else {
       return sequelize.models.firstResponder.create({
-        x: req.query.x,
-        y: req.query.y,
+        longitude: req.query.longitude,
+        latitude: req.query.latitude,
         token: req.query.token
       });
     }
   }).then((responder) => {
+    console.log('dsaijodsasadjkodsakdsajkdsajkdasjdasjkoadsjkads');
     addSocket(responder, socket, req);
   });
 }
@@ -86,8 +88,8 @@ function addSocket(firstResponder, socket, req) {
 
 function updateLocation(req, data) {
   sequelize.models.firstResponder.update({
-    x: data.x,
-    y: data.y
+    longitude: data.longitude,
+    latitude: data.latitude
   }, {
     where: {
       id: req.session.responderId
