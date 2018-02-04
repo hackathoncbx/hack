@@ -25,7 +25,7 @@ module.exports = (route, app, sequelize) => {
     const x = req.body.position.x;
     const y = req.body.position.y;
 
-    sequelize.models.alert.create({ x: x, y: y }).then((alert) => {
+    sequelize.models.alert.create({ token: req.body.token, x: x, y: y }).then((alert) => {
       const data = {
         x: x,
         y: y,
