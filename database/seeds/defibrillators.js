@@ -1,6 +1,6 @@
 const _map = require('lodash/map');
 const path = require('path');
-const defibrillatorsPath = path.join(__dirname, "defibrillators.geojson");
+const defibrillatorsPath = path.join(__dirname, 'defibrillators.geojson');
 const defibrillators = JSON.parse(require('fs').readFileSync(defibrillatorsPath, 'utf8'));
 
 module.exports = function(sequelize, options) {
